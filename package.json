@@ -7,9 +7,9 @@
     "url": "git@github.com:jsrubin/foos-leaderboard.git"
   },
   "dependencies": {
+    "express": "^4.13.3",
     "async": "2.0.0-rc.3",
     "body-parser": "^1.4.3",
-    "express": "^4.4.5",
     "jsx-loader": "^0.13.1",
     "react": "^15.0.1",
     "react-modal": "^1.2.1",
@@ -22,6 +22,13 @@
   "devDependencies": {},
   "scripts": {
     "bundle": "webpack",
-    "start": "node app.js"
+    "start": "node app.js",
+    "monitor": "nodemon app.js",
+    "deploy": "gcloud preview app deploy app.yaml",
+    "lint": "jshint --exclude-path=.gitignore .",
+    "test": "npm run lint"
+  },
+  "engines": {
+    "node": ">=0.12.7"
   }
 }
