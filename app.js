@@ -16,7 +16,7 @@ var rankData = require('./public/resources/ranking.json');
 var humor = require('./public/resources/humor.json');
 
 
-app.set('port', 3000);
+app.set('port', 8080);
 
 app.use('/', express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
@@ -31,7 +31,3 @@ app.get('/leaderboard', function(req, res) {
 app.listen(app.get('port'), function() {
   console.log('Server started: http://localhost:' + app.get('port') + '/');
 });
-
-
-
-};
