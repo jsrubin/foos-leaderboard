@@ -89,7 +89,7 @@
 		              });
 	console.dir(data.change);
 		              this.setState({
-				    	ranking: data.payload,
+				    	ranking: data.ranking,
 				    	newTopThree: newTopThree,
 				    	humor: data.humor,
 				    	trash: data.change
@@ -159,10 +159,9 @@
 				if (leaderChange) {
 					humor = trash;
 				}
-console.log("\n\n len.... " + humor.length);
 
-							var r = Math.floor(Math.random() * (humor.length));
-			console.log("\n\n pick a random.... " + r);
+				var r = Math.floor(Math.random() * (humor.length));
+
 				var humorText = [];
 				humorText.push(humor[r].text);
 				var cls = humor[r].style;

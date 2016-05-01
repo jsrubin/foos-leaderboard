@@ -7,16 +7,16 @@
     "url": "git@github.com:jsrubin/foos-leaderboard.git"
   },
   "dependencies": {
-    "express": "^4.13.3",
     "async": "2.0.0-rc.3",
     "body-parser": "^1.4.3",
+    "express": "^4.13.3",
     "jsx-loader": "^0.13.1",
     "react": "^15.0.1",
-    "react-modal": "^1.2.1",
     "react-dom": "^15.0.1",
+    "react-modal": "^1.2.1",
     "request": "2.69.0",
     "underscore": "1.8.3",
-    "webpack": "^1.8.5",
+    "webpack": "^1.13.0",
     "webpack-dev-server": "^1.4.7"
   },
   "devDependencies": {},

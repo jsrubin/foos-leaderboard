@@ -43,7 +43,7 @@ var Board = React.createClass({
 	              });
 console.dir(data.change);
 	              this.setState({
-			    	ranking: data.payload,
+			    	ranking: data.ranking,
 			    	newTopThree: newTopThree,
 			    	humor: data.humor,
 			    	trash: data.change
