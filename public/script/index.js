@@ -137,7 +137,7 @@ var HumorModule = React.createClass({
 
 var Leaderboard = React.createClass({
 
-	leaderRowsTop: function (ranking) {
+	leaderRowsTop: function (ranking, displayCount, renderHumor) {
 		return ranking.map(function(leader) {
 		    	var isPrimary = (leader.rank % 2 === 1) ? true : false;
 		    	var rank = leader.rank;
@@ -146,6 +146,9 @@ var Leaderboard = React.createClass({
 								primary: {isPrimary} 
 							});
 		    	var metal = [];
+
+				var rand = Math.floor(Math.random() * (displayCount));
+
 		    	if (rank == 1) {
 		    		metal.push(<img src="resources/gold.png"/>);
 		    	} if (rank == 2) {
@@ -153,17 +156,30 @@ var Leaderboard = React.createClass({
 		    	} if (rank == 3) {
 		    		metal.push(<img src="resources/bronze.png"/>);
 		    	}
-		    	if (rank == 1 || rank == 2 || rank == 3) {
+
+		    	var humor = [];
+		    	if (rank == rand) {
+		    		humor.push(renderHumor);
+		    	}
+
+		    	if (rank <= displayCount) {
 			        return (
 							<tr>
+								<td>
+								</td>
 								<th scope="row"
 								className={cx({ 
 									row: true,
 									primary: {isPrimary} 
 								})}>
-								{leader.rank}</th><td 
+								{leader.rank}</th>
+								<td 
 								className={rowClass}>
-								{leader.name}</td><td>{metal}</td>
+								{leader.name}</td>
+								<td>
+								{leader.wins}:{leader.loses}
+								</td>
+								<td>{metal}</td>
 							</tr>
 				     );
 			    }
@@ -188,7 +204,8 @@ var Leaderboard = React.createClass({
 								})}>
 								</th><td 
 								className={rowClass}>
-								{leader.name}</td><td></td>
+								{leader.name}</td>
+								<td></td>
 							</tr>
 				     );
 			    }
@@ -199,39 +216,28 @@ var Leaderboard = React.createClass({
 		console.log(this.props.ranking);
 		var newTopThree = this.props.newTopThree;
 		var topThree = this.props.topThree;
-
 		var leaderRows = [];
 		var upcomingLeaderRows = [];
 		var renderHumor = this.props.renderHumor;
+
+		var displayCount = 6;
+
 		if (this.props.ranking) {
-			leaderRows = this.leaderRowsTop(this.props.ranking);
-			upcomingLeaderRows = this.leaderRowsUpcoming(this.props.ranking);
+			leaderRows = this.leaderRowsTop(this.props.ranking, displayCount, renderHumor);
+			// upcomingLeaderRows = this.leaderRowsUpcoming(this.props.ranking);
 	    }
 	    return (
 			<div className="top6">
 			<table className="table">
 				<thead>
 					<tr>
-						<th scope="row" className="row">Rank</th><th>Leaders</th><th></th>
+						<th></th><th scope="row" className="row">Rank</th><th>Leader</th><th>Win/Loss</th><th></th>
 					</tr>
 				</thead>
 				<tbody>
 	            	{leaderRows}
 	    		</tbody>
 	    	</table>
-	    	{renderHumor}
-	    	<div className="tableChallengers">
-				<table className="table challengers">
-					<thead>
-						<tr>
-							<th scope="row" className="row"></th><th>Attacking The Throne</th><th></th>
-						</tr>
-					</thead>
-					<tbody>
-		            	{upcomingLeaderRows}
-		    		</tbody>
-		    	</table>
-	    	</div>
 	    	</div>
 		);
 	}

@@ -10,7 +10,7 @@ body, html {
 
 body::after {
   content: "";
-  background: url("../resources/foosman.png");
+  background: url("../resources/foosball-men.png");
   opacity: 0.1;
   top: 0;
   left: 0;
@@ -37,7 +37,8 @@ img {
 }
 
 .humor {
-	font-size: 1.5vw;
+  font-family: arial;
+	font-size: 1vw;
 	padding: 0 20px;
 	text-align: center;
 }
@@ -120,7 +121,7 @@ p {
     width: 0;
 }
 
-.triangle.left:after {
+/*.triangle.left:after {
     content: "";
     position: absolute;
     bottom: -20px;
@@ -130,9 +131,23 @@ p {
     border-color: #075698 transparent;
     display: block;
     width: 0;
+}*/
+
+.triangle.left {
+    margin-right: 50px;
+    background: #f3961c;
 }
 
-.triangle.right:before {
+.triangle.left:after {
+    top: 16px;
+    right: -50px;
+    bottom: auto;
+    left: auto;
+    border-width: 10px 0 10px 50px;
+    border-color: transparent #f3961c;
+}
+
+/*.triangle.right:before {
     content: "";
     position: absolute;
     bottom: -30px;
@@ -142,9 +157,9 @@ p {
     border-color: transparent #075698;
     display: block;
     width: 0;
-}
+}*/
 
-.triangle.right:after {
+/*.triangle.right:after {
     content: "";
     position: absolute;
     bottom: -30px;
@@ -154,6 +169,20 @@ p {
     border-color: transparent #fff;
     display: block;
     width: 0;
+}*/
+
+.triangle.right {
+    margin-right: 40px;
+    background: #075698;
+}
+
+.triangle.right:after {
+    top: 16px;
+    right: -40px;
+    bottom: auto;
+    left: auto;
+    border-width: 15px 0 0 40px;
+    border-color: transparent #075698;
 }
 
 .triangle.top {

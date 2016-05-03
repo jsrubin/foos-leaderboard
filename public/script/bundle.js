@@ -183,7 +183,7 @@
 
 	var Leaderboard = React.createClass({displayName: "Leaderboard",
 
-		leaderRowsTop: function (ranking) {
+		leaderRowsTop: function (ranking, displayCount, renderHumor) {
 			return ranking.map(function(leader) {
 			    	var isPrimary = (leader.rank % 2 === 1) ? true : false;
 			    	var rank = leader.rank;
@@ -192,6 +192,9 @@
 									primary: {isPrimary} 
 								});
 			    	var metal = [];
+
+					var rand = Math.floor(Math.random() * (displayCount));
+
 			    	if (rank == 1) {
 			    		metal.push(React.createElement("img", {src: "resources/gold.png"}));
 			    	} if (rank == 2) {
@@ -199,17 +202,30 @@
 			    	} if (rank == 3) {
 			    		metal.push(React.createElement("img", {src: "resources/bronze.png"}));
 			    	}
-			    	if (rank == 1 || rank == 2 || rank == 3) {
+
+			    	var humor = [];
+			    	if (rank == rand) {
+			    		humor.push(renderHumor);
+			    	}
+
+			    	if (rank <= displayCount) {
 				        return (
 								React.createElement("tr", null, 
+									React.createElement("td", null
+									), 
 									React.createElement("th", {scope: "row", 
 									className: cx({ 
 										row: true,
 										primary: {isPrimary} 
 									})}, 
-									leader.rank), React.createElement("td", {
+									leader.rank), 
+									React.createElement("td", {
 									className: rowClass}, 
-									leader.name), React.createElement("td", null, metal)
+									leader.name), 
+									React.createElement("td", null, 
+									leader.wins, ":", leader.loses
+									), 
+									React.createElement("td", null, metal)
 								)
 					     );
 				    }
@@ -234,7 +250,8 @@
 									})}
 									), React.createElement("td", {
 									className: rowClass}, 
-									leader.name), React.createElement("td", null)
+									leader.name), 
+									React.createElement("td", null)
 								)
 					     );
 				    }
@@ -245,38 +262,27 @@
 			console.log(this.props.ranking);
 			var newTopThree = this.props.newTopThree;
 			var topThree = this.props.topThree;
-
 			var leaderRows = [];
 			var upcomingLeaderRows = [];
 			var renderHumor = this.props.renderHumor;
+
+			var displayCount = 6;
+
 			if (this.props.ranking) {
-				leaderRows = this.leaderRowsTop(this.props.ranking);
-				upcomingLeaderRows = this.leaderRowsUpcoming(this.props.ranking);
+				leaderRows = this.leaderRowsTop(this.props.ranking, displayCount, renderHumor);
+				// upcomingLeaderRows = this.leaderRowsUpcoming(this.props.ranking);
 		    }
 		    return (
 				React.createElement("div", {className: "top6"}, 
 				React.createElement("table", {className: "table"}, 
 					React.createElement("thead", null, 
 						React.createElement("tr", null, 
-							React.createElement("th", {scope: "row", className: "row"}, "Rank"), React.createElement("th", null, "Leaders"), React.createElement("th", null)
+							React.createElement("th", null), React.createElement("th", {scope: "row", className: "row"}, "Rank"), React.createElement("th", null, "Leaders"), React.createElement("th", null, "Win/Loss"), React.createElement("th", null)
 						)
 					), 
 					React.createElement("tbody", null, 
 		            	leaderRows
 		    		)
-		    	), 
-		    	renderHumor, 
-		    	React.createElement("div", {className: "tableChallengers"}, 
-					React.createElement("table", {className: "table challengers"}, 
-						React.createElement("thead", null, 
-							React.createElement("tr", null, 
-								React.createElement("th", {scope: "row", className: "row"}), React.createElement("th", null, "Attacking The Throne"), React.createElement("th", null)
-							)
-						), 
-						React.createElement("tbody", null, 
-			            	upcomingLeaderRows
-			    		)
-			    	)
 		    	)
 		    	)
 			);
