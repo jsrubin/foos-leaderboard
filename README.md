@@ -1,5 +1,5 @@
 # foos-leaderboard
-Foosball Arcade Style Leaderboard
+Classic Arcade Style Foosball Leaderboard
 
 # Build
 npm install
@@ -8,4 +8,4 @@ npm install
 npm start
 
 # Post to /leaderboard
-curl -i -X POST -H "Content-Type:application/json" -d '{"payload":[{"name":"Alex","rank":1,"wins":13,"loses":1},{"name":"Justin","rank":2,"wins":10,"loses":9},{"name":"Charles","rank":9,"wins":7,"loses":7},{"name":"Sandeep","rank":4,"wins":6,"loses":5},{"name":"Jun","rank":5,"wins":6,"loses":5},{"name":"Shriram","rank":6,"wins":5,"loses":5}]}' https://localhost:8080/leaderboard
+curl -i -X POST -H "Content-Type:application/json" -d '{"payload":[{"wins":5,"losses":10,"name":"bendy"},{"wins":8,"losses":7,"name":"foosy"},{"wins":8,"losses":7,"name":"lazy"},{"wins":9,"losses":6,"name":"roddy"}]}' http://foos-leaderboard.appspot.com/leaderboard
