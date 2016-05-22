@@ -1,8 +1,9 @@
 {
   "name": "foos-leaderboard",
   "version": "1.0.0",
-  "description": "Foosball Arcade Style Leaderboard",
+  "description": "Classic Arcade Style Foosball Leaderboard",
   "author": "Justin Rubin",
+  "license": "MIT",
   "repository": {
     "url": "git@github.com:jsrubin/foos-leaderboard.git"
   },
