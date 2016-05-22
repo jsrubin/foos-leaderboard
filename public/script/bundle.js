@@ -82,6 +82,8 @@
 		      dataType: 'json',
 		      cache: false,
 		      success: function(data) {
+		      	console.log("\n\n LOADING SERVER DATA.......\n");
+		      	console.log(data);
 		              console.log(data.payload);
 		              console.log(data.humor);
 		              var newTopThree = _.filter(data.payload, function (top) {
@@ -183,10 +185,30 @@
 
 	var Leaderboard = React.createClass({displayName: "Leaderboard",
 
+		score: function (wins, losses) {
+			return Math.round((wins / (wins + losses)) * 100) / 100;
+		},
+
+		totalGames: function (wins, losses) {
+			return wins + losses;
+		},
+
+		ranking: function (ranking) {
+			var self = this;
+			_.each(ranking, function (player) {
+				player.score = self.score(player.wins, player.losses);
+				player.total = self.totalGames(player.wins, player.losses);
+			});
+
+			return _.sortBy(ranking, function (player) {
+				return player.score;
+			}).reverse();
+		},
+
 		leaderRowsTop: function (ranking, displayCount, renderHumor) {
-			return ranking.map(function(leader) {
-			    	var isPrimary = (leader.rank % 2 === 1) ? true : false;
-			    	var rank = leader.rank;
+			return ranking.map(function(leader, index) {
+					var rank = index + 1;
+			    	var isPrimary = (rank % 2 === 1) ? true : false;
 			    	var rowClass = cx({
 									rank: true,
 									primary: {isPrimary} 
@@ -218,12 +240,12 @@
 										row: true,
 										primary: {isPrimary} 
 									})}, 
-									leader.rank), 
+									rank), 
 									React.createElement("td", {
 									className: rowClass}, 
 									leader.name), 
 									React.createElement("td", null, 
-									leader.wins, ":", leader.loses
+									leader.score, " %"
 									), 
 									React.createElement("td", null, metal)
 								)
@@ -259,6 +281,7 @@
 		},
 
 		render: function() {
+			console.log("\n\n RNEDER RANKING.......\n");
 			console.log(this.props.ranking);
 			var newTopThree = this.props.newTopThree;
 			var topThree = this.props.topThree;
@@ -268,8 +291,11 @@
 
 			var displayCount = 6;
 
-			if (this.props.ranking) {
-				leaderRows = this.leaderRowsTop(this.props.ranking, displayCount, renderHumor);
+			if (this.props.ranking && this.props.ranking.length > 0) {
+				var ranking = this.ranking(this.props.ranking);
+				console.log("\n\n MAP of RANKING.......\n");
+				console.log(ranking);
+				leaderRows = this.leaderRowsTop(ranking, displayCount, renderHumor);
 				// upcomingLeaderRows = this.leaderRowsUpcoming(this.props.ranking);
 		    }
 		    return (
@@ -277,7 +303,7 @@
 				React.createElement("table", {className: "table"}, 
 					React.createElement("thead", null, 
 						React.createElement("tr", null, 
-							React.createElement("th", null), React.createElement("th", {scope: "row", className: "row"}, "Rank"), React.createElement("th", null, "Leaders"), React.createElement("th", null, "Win/Loss"), React.createElement("th", null)
+							React.createElement("th", null), React.createElement("th", {scope: "row", className: "row"}, "Rank"), React.createElement("th", null, "Leader"), React.createElement("th", null, "Score"), React.createElement("th", null)
 						)
 					), 
 					React.createElement("tbody", null, 

@@ -36,6 +36,8 @@ var Board = React.createClass({
 	      dataType: 'json',
 	      cache: false,
 	      success: function(data) {
+	      	console.log("\n\n LOADING SERVER DATA.......\n");
+	      	console.log(data);
 	              console.log(data.payload);
 	              console.log(data.humor);
 	              var newTopThree = _.filter(data.payload, function (top) {
@@ -137,10 +139,30 @@ var HumorModule = React.createClass({
 
 var Leaderboard = React.createClass({
 
+	score: function (wins, losses) {
+		return Math.round((wins / (wins + losses)) * 100) / 100;
+	},
+
+	totalGames: function (wins, losses) {
+		return wins + losses;
+	},
+
+	ranking: function (ranking) {
+		var self = this;
+		_.each(ranking, function (player) {
+			player.score = self.score(player.wins, player.losses);
+			player.total = self.totalGames(player.wins, player.losses);
+		});
+
+		return _.sortBy(ranking, function (player) {
+			return player.score;
+		}).reverse();
+	},
+
 	leaderRowsTop: function (ranking, displayCount, renderHumor) {
-		return ranking.map(function(leader) {
-		    	var isPrimary = (leader.rank % 2 === 1) ? true : false;
-		    	var rank = leader.rank;
+		return ranking.map(function(leader, index) {
+				var rank = index + 1;
+		    	var isPrimary = (rank % 2 === 1) ? true : false;
 		    	var rowClass = cx({
 								rank: true,
 								primary: {isPrimary} 
@@ -172,12 +194,12 @@ var Leaderboard = React.createClass({
 									row: true,
 									primary: {isPrimary} 
 								})}>
-								{leader.rank}</th>
+								{rank}</th>
 								<td 
 								className={rowClass}>
 								{leader.name}</td>
 								<td>
-								{leader.wins}:{leader.loses}
+								{leader.score} %
 								</td>
 								<td>{metal}</td>
 							</tr>
@@ -213,6 +235,7 @@ var Leaderboard = React.createClass({
 	},
 
 	render: function() {
+		console.log("\n\n RNEDER RANKING.......\n");
 		console.log(this.props.ranking);
 		var newTopThree = this.props.newTopThree;
 		var topThree = this.props.topThree;
@@ -222,8 +245,11 @@ var Leaderboard = React.createClass({
 
 		var displayCount = 6;
 
-		if (this.props.ranking) {
-			leaderRows = this.leaderRowsTop(this.props.ranking, displayCount, renderHumor);
+		if (this.props.ranking && this.props.ranking.length > 0) {
+			var ranking = this.ranking(this.props.ranking);
+			console.log("\n\n MAP of RANKING.......\n");
+			console.log(ranking);
+			leaderRows = this.leaderRowsTop(ranking, displayCount, renderHumor);
 			// upcomingLeaderRows = this.leaderRowsUpcoming(this.props.ranking);
 	    }
 	    return (
@@ -231,7 +257,7 @@ var Leaderboard = React.createClass({
 			<table className="table">
 				<thead>
 					<tr>
-						<th></th><th scope="row" className="row">Rank</th><th>Leader</th><th>Win/Loss</th><th></th>
+						<th></th><th scope="row" className="row">Rank</th><th>Leader</th><th>Score</th><th></th>
 					</tr>
 				</thead>
 				<tbody>
